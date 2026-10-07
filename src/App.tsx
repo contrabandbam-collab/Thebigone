@@ -18,9 +18,11 @@ function Brand() {
 }
 
 function searchComment(query: string) {
-  const serious = /\b(doctor|medical|lawyer|legal|emergency|urgent|danger|safety|police|fire|abuse|crisis|accident|hospital|therapist)\b/i.test(query);
+  const serious = /\b(doctor|medical|lawyer|legal|emergency|urgent|danger|safety|police|fire|abuse|crisis|accident|hospital|therapist|poison|weapon|violence|crash|injury|ambulance|overdose|suicide)\b/i.test(query);
   if (!query.trim()) return "Tell us what you’re looking for and we’ll help you find a local business.";
-  if (serious) return "Showing relevant local results. Please contact emergency services for immediate danger.";
+  if (serious) return /\b(emergency|immediate danger|ambulance|overdose|suicide|violence)\b/i.test(query)
+    ? "Showing relevant local results. If someone is in immediate danger, contact local emergency services."
+    : "Showing relevant local results.";
   return ["Let’s find your people nearby.", "Local search, coming right up.", "A good neighborhood find is close."][query.trim().length % 3];
 }
 
@@ -70,6 +72,19 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!supabase) return;
+    let timer: number;
+    const refresh = async () => {
+      const { data, error } = await supabase.from("public_business_highlight").select("*").maybeSingle();
+      if (!error) setHighlight((data ?? null) as PublicBusiness | null);
+      timer = window.setTimeout(refresh, 24 * 60 * 60 * 1000);
+    };
+    const day = 24 * 60 * 60 * 1000;
+    timer = window.setTimeout(refresh, day - (Date.now() % day) + 1000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     if (!session) return;
     let timer: number;
     const logout = () => { void supabase?.auth.signOut(); setSession(null); setShowOwner(false); setNotice("You were signed out after five minutes of inactivity."); };
@@ -99,7 +114,8 @@ function App() {
     recognition.lang = navigator.language || "en-US";
     recognition.onresult = (event) => { const spoken = event.results[0][0].transcript; setQuery(spoken); void runSearch(spoken); };
     recognition.onerror = () => setNotice("Microphone access wasn’t available. Try typing your search instead.");
-    recognition.start();
+    try { recognition.start(); }
+    catch { setNotice("Microphone access wasn’t available. Try typing your search instead."); return; }
     setNotice("Listening…");
   };
 
