@@ -1,31 +1,32 @@
-# ShortStack app code
+# ShortStack v2.4 code scaffold
 
-This repository now includes a React + TypeScript app shell and a Supabase schema foundation based on the ShortStack master build in [docs/ShortStack_Master_Build_Launch_Ready.txt](docs/ShortStack_Master_Build_Launch_Ready.txt).
+React + TypeScript consumer discovery app and Supabase/Postgres foundation based on the consolidated [master build](docs/ShortStack_Master_Build_Launch_Ready.txt).
 
-## Local setup
+## Run locally
 
 1. Install Node.js 20 or newer.
-2. Copy `.env.example` to `.env.local`.
-3. Add a Supabase project URL and the public anon/publishable key.
-4. Apply the migration in `supabase/migrations` to a **development** Supabase project.
-5. Install packages with `npm install`.
-6. Run `npm run dev`; run `npm run build` for a production bundle.
+2. Copy `.env.example` to `.env.local` and enter a Supabase development project URL and public anon/publishable key.
+3. Apply migrations in `supabase/migrations` to a **development copy only**.
+4. Run `npm install`, then `npm run dev`. Run `npm run build` to type-check and create the production bundle.
 
-## Current code status
+## Implemented in this scaffold
 
-This is the first code scaffold, not a production launch. It includes the consumer discovery screen, text/voice search, location permission handling, public business/promotion views, CALL/EMAIL actions, owner sign-in, draft listing creation, the core schema, and initial row policies.
+- ShortStack wordmark and motto, responsive discovery/search, voice search where browser support exists, location permission handling, and “Your Stacks” owner access.
+- Additive v2.4 database migration with public eligibility filtering, a server-selected 24-hour highlight, broader text search fields, staff permission flags, owner dashboard status view, and server-managed payment/referral history tables.
+- Owner draft listing form for business/entity type, listing type, “City and State,” description, service area, public contact information, and searchable keywords.
+- Search from within a business profile, public call/email actions, customer reviews display, Local Promotions, and public consumer terms/privacy notice sections.
+- Five-minute inactivity sign-out; public sample records are labeled as preview-only and are never shown as eligible paid highlights.
 
-The following still require implementation/configuration before launch:
-- The approved Miami skyline image still needs to be added to `public/`.
-- Payment provider account, server-side checkout/webhook functions, and verified renewal/referral processing.
-- Admin Console workflows, MFA enrollment/recovery, moderation actions, category editor, staff invitations/permissions, complete photo/Showroom/promotion management, and legal policy content.
-- Database review and migration against the real existing app; configure storage bucket and policies; migrate existing data safely.
-- Automated tests, accessibility review, security review, preview deployment, and production configuration.
+## Not launch-ready
 
-The app intentionally signs out on a fresh launch and after five minutes of inactivity. Preview sample listings appear only when Supabase is not configured and are labeled as non-persistent preview data. Do not use sample data as production records.
+This repository is a code scaffold. The target Supabase project is not connected here, migrations have not been applied or tested against a database, and no production data has been migrated or reconciled.
 
-## Security notes
+- The approved emerald, black, and silver stacked-storefront logo file and approved blurred Miami sunset photograph are not available in this workspace. The current header uses text branding; it does not recreate the approved logo. Add the original assets before release.
+- Payment provider checkout/webhooks, idempotent payment handling, manual renewal reminders, cancellation/reactivation flows, and referral qualification/discount processing still need trusted server-side functions. The schema deliberately grants no client payment writes. No payment is processed or listing activated by this app.
+- Secure device photo uploads, preview/replace/delete, gallery/Showroom, and Promotional Flyer Studio are not implemented. Configure private storage access before enabling owner uploads; the flyer template must use photo upload and contain no QR code.
+- Admin Command Center workflows, MFA setup/recovery, moderation UI, category management, billing/referral oversight, staff invitation/permission management, and account deletion are not implemented.
+- Address autocomplete, real geocoding/distance, mobile-business coverage beyond text search, and persistent highlight schedule monitoring require configured services.
+- Terms and privacy sections are starter copy, not approved legal policy. Obtain legal review and publish complete policies before launch.
+- Run a full TypeScript/Vite build, database migration against a safe copy, security regression checks, accessibility/device tests, and payment sandbox tests. Set a nonpayment grace/status policy with the owner/admin before production; this scaffold does not invent one.
 
-- Only the Supabase public anon/publishable key belongs in `VITE_SUPABASE_ANON_KEY`. Never put service-role, payment, or webhook secrets in a Vite variable.
-- Payment status and listing activation are server-managed. The browser scaffold does not charge or activate businesses.
-- Do not apply the starter migration to production until it has been reviewed against the existing schema and a backup/rollback plan is ready.
+Do not apply these migrations to production until the existing schema and data have been backed up, mapped, reviewed, and tested with a rollback plan. Preserve existing business IDs, URLs/QRs, reviews, payment history, referrals, and owner/staff assignments. Use the approved Supabase auth/database/storage/server architecture; never add service-role or payment secrets to `VITE_` variables.
