@@ -384,4 +384,3 @@ LAUNCH GATE
 Do not label the build launch-ready until all critical acceptance checks pass, payment sandbox behavior is verified, security and data preservation checks pass, required policies are accessible, and no unresolved critical blocker remains. If a requirement cannot be verified, report it plainly and leave the release in preview/staging.
 
 END OF SHORTSTACK MASTER BUILD SPECIFICATION
-
