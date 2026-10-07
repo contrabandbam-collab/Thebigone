@@ -20,11 +20,18 @@ export type PublicBusiness = {
   name: string;
   slug: string;
   description: string | null;
+  business_type: string | null;
   category: string | null;
   subcategory: string | null;
+  custom_category: string | null;
+  keywords: string[];
+  services: string[];
+  products: string[];
   city: string | null;
   state: string | null;
+  public_postal_code: string | null;
   service_area: string | null;
+  is_mobile: boolean;
   public_phone: string | null;
   public_email: string | null;
   website_url: string | null;
