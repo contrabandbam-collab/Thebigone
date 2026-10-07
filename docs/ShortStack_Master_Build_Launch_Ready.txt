@@ -1,0 +1,387 @@
+SHORTSTACK — MASTER BUILD AND LAUNCH SPECIFICATION
+Consolidated Product Build | Version 2.4 Baseline | Launch-Ready Edition
+
+DIRECTIVE TO THE APP BUILDER
+
+Build or update the existing ShortStack application as one complete, production-ready product using this specification as the source of truth. First inspect the current project, its data model, routes, integrations, security rules, and deployed behavior. Then implement the requirements below in the existing application.
+
+Do not create a disconnected replacement, duplicate existing businesses, reset customer data, or remove approved functionality. Preserve stable business IDs, profile URLs, QR codes, reviews, payment and renewal history, owner/staff assignments, and other records. Make a backup and use a reversible migration plan before changing production data. If a requirement cannot be implemented or verified in the target platform, identify it as a blocker or clearly documented limitation; do not claim it works when it has not been tested.
+
+This specification carries forward the approved v2.0 Consumer Discovery & Owner Performance baseline, v2.1 Admin Command Center, v2.2 smart search and Business Highlights, v2.3 official branding, v2.4 corrections, and the pre-launch hardening directives. Where earlier versions conflict with v2.4, v2.4 controls.
+
+1. BRAND NAME AND BRAND IDENTITY
+
+Canonical public-facing brand name: “ShortStack” (one word, exact capitalization).
+
+Before the build is presented for review:
+- Replace public-facing PipSqueak, Seeker, One Click, Nucleus, or other retired names with “ShortStack.”
+- Update page titles, app labels, navigation, sign-in, owner/admin dashboards, public listings, metadata, email templates, payment descriptions, legal pages, and promotional surfaces.
+- Update public-facing references only. Do not rename or rewrite legacy database IDs, historical audit entries, payment records, or immutable URLs if that could break ownership, records, or links.
+- Use the approved ShortStack logo asset. Do not recreate, distort, crop, or recolor the logo.
+- Apply the logo consistently to the app icon/splash or loading screen where supported, public header, sign-in, consumer pages, owner dashboard, admin dashboard, legal pages, metadata, and approved promotional materials.
+- Use the motto exactly as approved: “Small Businesses. Big Deal.”
+- Keep logo proportions and readability on mobile, tablet, and desktop.
+
+2. PRODUCT ROLES AND ACCESS
+
+Provide these role-based experiences:
+- Consumer: discovers businesses, views public profiles, searches, and views eligible promotions and reviews.
+- Business owner: creates and manages their own business listing, images, showroom, promotions, staff access if enabled, and billing/renewal information.
+- Business staff: receives only explicitly assigned permissions for the business they work with.
+- ShortStack administrator: accesses protected platform oversight and moderation tools.
+
+Consumers should be able to discover public businesses without being exposed to private owner or payment data. Enforce permissions on the server/data layer, not only by hiding interface controls. Users must not be able to grant themselves owner, staff, or admin privileges.
+
+3. CONSUMER HOME AND DISCOVERY EXPERIENCE
+
+Restore the entire approved consumer home/search experience together:
+- Blurred Miami sunset skyline background with a readability overlay.
+- ShortStack logo and “Small Businesses. Big Deal.” motto.
+- “Your Stacks” entry point for owner access.
+- “Tell me what you need” search with typed input and voice input where supported.
+- Location selector and “Use My Location” when the user grants permission.
+- Four quick business/service image tiles.
+- Free Business Highlight module rotating every 24 hours.
+- Local Promotions module.
+
+Keep the screen responsive and readable at mobile, tablet, and desktop widths. If a background image is missing or fails to load, show a clean fallback that preserves contrast and brand identity.
+
+Search and discovery must:
+- Support searches by business name, service or product need, category, subcategory, approved custom category, keyword, city, ZIP code, service area, mobile-business coverage, and promotion.
+- Understand plain-language intent, not only exact category names. Examples include “barber near me,” “someone who installs appliances,” “custom birthday cake,” “mobile mechanic,” and “I need someone to fix my brakes.”
+- Support voice input where the device/browser allows it. If microphone permission is denied or voice input is unavailable, explain briefly and leave typed search available.
+- Support location-aware results when reliable location data is available. Never invent a user's location, business distance, service area, or availability.
+- Allow a consumer to start a new search directly from a business profile without returning to Home.
+- Show helpful empty, loading, denied-permission, network-error, and server-error states.
+- Use short, respectful, funny/context-aware commentary for ordinary searches. Turn off humor for medical, legal, emergency, safety-sensitive, or otherwise serious searches.
+
+Business Highlight rules:
+- Feature one eligible business at no charge and rotate every 24 hours.
+- Select randomly from businesses that are active, paid, public, approved, and otherwise eligible.
+- Exclude inactive, hidden, unpaid, suspended, rejected, canceled, expired, or otherwise ineligible listings.
+- Enforce eligibility on the server/data query so hidden records cannot leak into consumer search or highlights.
+- Provide a neutral, useful empty state when there are no eligible businesses.
+
+Local Promotions:
+- Show current, published promotions for eligible public businesses.
+- A promotion may include an uploaded image/flyer, a short description, or both.
+- Automatically exclude expired, unpublished, hidden, or ineligible promotions.
+- Preserve intentional QR code functionality elsewhere in the app.
+
+4. PUBLIC BUSINESS PROFILE
+
+Preserve and provide a useful public profile for each approved, public business. It should support:
+- Business name, description, category/subcategory, location, service area, and mobile-business information where applicable.
+- Business logo/profile image and business photos.
+- Business Photos & Showroom.
+- Current promotion or offer where present.
+- Customer reviews and rating history.
+- Contact actions with clear CALL or EMAIL labels where those actions are available.
+- Existing public business profile URL and intentional profile QR code.
+
+Never expose private owner information, authentication IDs, billing/payment references, internal moderation notes, private media, or admin-only fields on public profiles. Owners may flag a review for administrator review but may not directly alter, delete, or set their customer rating/review history.
+
+5. OWNER SIGNUP, LISTING, PHOTOS, AND PROMOTIONS
+
+Business listing:
+- In every create/edit flow, label location fields “City and State,” replacing “City and Region.”
+- Support storefront, service-area, and mobile businesses without inventing unsupported address/location data.
+- Give the owner clear listing status, payment status, renewal date, and next action.
+
+Business Photos & Showroom:
+- Remove workflows requiring an owner to enter an image URL or asset path.
+- Allow direct device uploads: photo library/camera on supported mobile devices and local file picker on computers.
+- Provide image preview, save, replace, and delete actions.
+- Validate supported file types and size limits, show clear errors, and preserve the prior saved image when a replacement fails.
+- Store uploaded files with access controls appropriate to whether the image is public or private.
+
+Promotional Flyer Studio:
+- In Owner Management Dashboard > Items > Promotional Flyer Studio, remove the QR code from that flyer template and replace its area with a direct photo upload placeholder.
+- Allow an owner to upload a product, storefront, promotion, or other image from the current device; use the uploaded image in the flyer layout.
+- Do not remove intentional QR codes from public business profiles or other previously approved locations.
+
+6. PRICING, MANUAL PAYMENTS, RENEWALS, AND REFERRALS
+
+The v2.4 pricing overrides any older pricing:
+- Initial business enrollment: $19.99.
+- Renewal: $25 every 2 months.
+- Renewal is manual. Do not enable automatic renewal or automatic saved-card charges.
+- Display the same pricing and cadence in signup, owner dashboard, admin dashboard, payment history, reminders, account status, and all pricing copy.
+- Use a payment provider’s secure hosted/tokenized flow. Do not store raw card numbers or sensitive payment credentials in the app.
+- Verify provider payment events server-side. Use idempotency protections against duplicate submissions/webhooks.
+- Keep test/sandbox and production modes separate. Never use real customer charges during QA.
+- Provide clear paid, pending, failed, declined, overdue, canceled, and reactivation states with a recovery path.
+- Define the nonpayment listing-status behavior consistently; do not expose ineligible unpaid businesses to consumer discovery or Business Highlight.
+- Do not invent an unapproved grace period. If the existing project has no approved grace-period rule, mark the policy decision as a launch blocker for the owner/admin rather than silently choosing one.
+
+Referral incentive:
+- A qualifying referred business must complete its $19.99 signup/payment.
+- The referring owner receives 50% off their first renewal only: $12.50.
+- Later renewals return to $25 every 2 months.
+- Prevent stacking, duplicate referrals, self-referrals, and repeated use of the same qualifying referral.
+- Record the referral qualification and discount application in auditable payment/referral history.
+
+Test declined payments, failed renewals, duplicate payment attempts, overdue renewals, referral qualification, and listing status after nonpayment.
+
+7. ADMIN COMMAND CENTER AND PLATFORM OPERATIONS
+
+Preserve the protected Admin Command Center and platform oversight features:
+- Business/listing search, inspection, approval, suspension, hiding, rejection/removal, and reactivation.
+- Owner/account oversight, limited to information necessary for platform operations.
+- Review and report moderation with recorded moderation reasons.
+- Category/subcategory management; add, rename, deactivate, and organize categories without breaking existing listings.
+- Review custom categories and promote common ones where appropriate.
+- Local Promotions oversight and controls.
+- Business Highlight eligibility and rotation oversight.
+- Payment/renewal status visibility.
+- Cancellation/reactivation oversight.
+- Referral/reward oversight.
+- Platform notices/status controls.
+- Admin audit history for sensitive actions.
+- Status and error visibility sufficient to support platform operations.
+
+Do not let business owners or ordinary users directly change admin-managed statuses, payment states, moderation decisions, or eligibility rules through client-side fields.
+
+8. STAFFING, AUTHENTICATION, AND SECURITY
+
+Security requirements:
+- Use server-side authorization and least-privilege access for every protected read/write.
+- Preserve and verify row-level security, object-level authorization, and protections around admin, moderation, private owner, staff, and payment data.
+- Require MFA for administrators and preserve the approved admin login/recovery path.
+- Confirm owners cannot reach admin-only functions.
+- Confirm staff can access only the business records and actions assigned to them.
+- Do not place service-role keys, payment secrets, signing secrets, or other privileged credentials in client code or public configuration.
+- Validate uploads, forms, role changes, payment webhooks, and admin actions server-side.
+- Rate-limit sensitive authentication/payment actions where supported.
+- Log security-relevant admin actions with actor, target, time, and reason without logging passwords, tokens, or unnecessary personal data.
+- Run a final security regression test after UI and data changes.
+
+Authentication and account controls:
+- Test signup, sign-in, sign-out, forgot password, password reset, expired reset links, locked-account behavior, MFA recovery, and session expiry.
+- Provide a clear account deletion process and appropriate handling/retention of owner and staff data.
+- Avoid exposing real production credentials in preview/test instructions.
+
+9. LEGAL, PRIVACY, AND TRUST
+
+- Add a persistent Terms & Conditions link to the public footer.
+- Keep the full approved ShortStack terms accessible from public pages.
+- Keep shorter consumer notices on profiles/promotions and owner policy notices in the owner dashboard where approved.
+- Make a Privacy Policy visible before public launch.
+- Consumer terms must explain that each business is responsible for its own listings, advertisements, pricing, services, availability, claims, transactions, refunds, disputes, and conduct.
+- State that a listing on ShortStack is not an endorsement and consumers should verify important details directly with the business.
+- Owner terms must require truthful, accurate, current, lawful, and non-misleading information and promotional content.
+- ShortStack may review, restrict, suspend, hide, reject, or remove listings involving fraud, misleading content, unlawful activity, stolen content, manipulation, policy violations, or safety, legal, or security risks.
+- Do not invent legal claims or imply that ShortStack guarantees business quality, transaction outcomes, or consumer safety. Escalate missing policy/legal content as a launch blocker for review.
+
+10. DATA PRESERVATION AND SAFE MIGRATION
+
+Before changing the existing application:
+- Inspect the schema, relationships, current roles, payment configuration, URLs, and live data.
+- Back up production data and record the current schema/build state.
+- Create a written migration and rollback plan.
+- Use additive or carefully mapped migrations wherever possible.
+- Preserve business IDs and identifiers, profile URLs, QR codes, reviews, media references, payment/renewal history, referral history, and owner/staff assignments.
+- Do not recreate businesses or create duplicate accounts during migration.
+- Preserve stable public links wherever possible.
+- Keep legacy brand wording only in historical/internal records when renaming it could damage record integrity; all current user-facing branding must be “ShortStack.”
+- Run migration against a safe copy/test environment first. Reconcile record counts and representative owner/business relationships before production release.
+
+11. ACCESSIBILITY, RESPONSIVE DESIGN, AND RELIABILITY
+
+- Test iPhone, Android, tablet, and desktop layouts.
+- Check readable text and contrast over the Miami background and image surfaces.
+- Provide adequate tap targets, text scaling, keyboard navigation, visible focus states, form errors, and screen-reader labels.
+- Ensure search, voice input, uploads, flyer creation, navigation, public footer links, owner controls, and admin controls work at supported sizes.
+- Test empty results, denied location/microphone permission, no promotions, no eligible Business Highlight, broken/missing images, offline/network failure, payment-provider failure, and server errors.
+- Provide clear user-facing recovery states; do not expose stack traces, secrets, or internal data.
+- Add basic production error monitoring and health visibility if supported by the target platform. Keep logs free of passwords, payment secrets, and unnecessary personal data.
+- Configure production environment variables/secrets securely, separate test and production credentials, and document backup/restore and rollback steps.
+
+12. IMPLEMENTATION SEQUENCE
+
+Complete the work in this order:
+1. Inspect the existing application and identify the deployed source of truth.
+2. Inventory approved behavior, current data, integrations, routes, security policies, and remaining legacy brand references.
+3. Back up data and prepare a reversible migration/rollback plan.
+4. Normalize all current public-facing branding to “ShortStack” and apply the approved logo without changing identifiers or historical records.
+5. Implement v2.4 owner, pricing, referral, photo-upload, flyer, and terms changes.
+6. Restore and verify the complete approved consumer home/search experience and v2.2 discovery behavior.
+7. Verify Admin Command Center, staffing roles, authentication, security, and audit history.
+8. Apply privacy, accessibility, responsiveness, error-state, and monitoring hardening.
+9. Run automated and manual acceptance tests in preview/staging with sandbox payments and test accounts.
+10. Fix launch blockers, re-run affected tests, and prepare a stable build for final review.
+11. Do not publish to production, send customer communications, or charge real customers as part of QA. Present the preview URL and launch-readiness report for review.
+
+13. LEGACY V1.x FEATURE CARRY-FORWARD
+
+The original Seeker Build 1.1 local-business discovery master and retrieved v1.3–v1.13 updates are incorporated below. No separate standalone v1.2 build was found in the current Library search. Preserve the retrieved behaviors unless a later ShortStack v2.4 rule explicitly replaces them. This is a feature carry-forward map, not permission to recreate old branding or old pricing.
+
+PUBLIC DISCOVERY AND REGISTRATION FLOW
+- Consumers can browse and search public businesses without creating an account.
+- Do not show a role chooser during public signup or sign-in. Owners authenticate before creating/editing their business; staff access is by owner invitation; administrators grant admin access. Never allow public users to self-assign roles.
+- Keep business discovery in Home and Search. Do not add Categories or Directory as top-level navigation tabs; keep category and keyword filters available within Search.
+- The Create Business Listing action must open a usable, empty registration form immediately for a new authenticated owner. Do not require an existing business, payment, subscription, profile image, QR code, review, rating, or category record before the form can render.
+- If the owner is not signed in, send them through authentication and return them to the registration form afterward.
+- Handle null/missing optional data with safe defaults and visible loading/error states. Never leave a blank screen.
+
+ADDRESS AUTOCOMPLETE AND LOCATION
+- Where a configured provider is available, offer selectable address suggestions in consumer location search and owner business-address entry.
+- Selecting a provider-backed address may populate street, city, state, ZIP/postal code, and coordinates only when those values are returned by the provider.
+- Let owners review and edit populated fields before saving.
+- Preserve manual entry if the provider is not configured or fails. Show a clear unavailable state; never fabricate an address, coordinate, distance, or service area.
+- Do not automatically publish a home-based business’s precise address. Let the owner choose a public storefront address or service-area display; keep private address data private.
+
+ACCOUNT PRIVACY AND SESSION CONTROLS
+- Keep owner identity, login email, personal phone/address, billing details, auth IDs, staff assignments, payment references, and private account data out of public search, profiles, flyers, QR destinations, and public API responses unless a specific contact field is intentionally selected as public business contact information.
+- On each fresh app launch, start authenticated roles signed out and clear cached protected client state before rendering protected content.
+- Sign out owner, staff, and admin sessions after five consecutive minutes without user activity. Pointer, keyboard, touch, and scroll activity reset the timer; background polling does not. End the authentication session, clear role-specific client state, and block protected routes/data until sign-in.
+- Provide a clearly visible owner logout action and verify protected content cannot be opened after logout or timeout.
+
+OWNER REGISTRATION FORM AND COMPANY DASHBOARD
+- Support business/entity type options: sole proprietor, LLC, corporation, partnership, and other.
+- Collect the business information needed for a public company listing: name, category/subcategory, description, business profile image/logo, location or service area, public contact details, hours, services/products, and searchable keywords.
+- Offer website, ordering, booking, and other approved public links when applicable.
+- EIN and insurance questions are informational only and must not block registration or approval.
+- Preserve category-specific fields where useful: restaurant menu upload/menu items; automotive services; home-service offerings; pet-service offerings. Other categories use a general services/products field and optional prices.
+- Keep the owner dashboard company-focused. Do not require personal owner-profile fields to manage a business. Keep private identity, billing, recovery, and authentication data separate.
+- Support multiple businesses per owner. Show a “My Businesses” list and a “Create Another Business Listing” action. Every business has separate profile, images, showroom, promotions, menu, reviews, QR code, payment state, cancellation state, and visibility controls. One business’s edits must never overwrite another’s.
+
+FLEXIBLE CATEGORIES, SERVICES, AND KEYWORDS
+- Keep starter categories and allow administrators to expand/edit them over time.
+- Let an owner search and select a category/subcategory or choose “Other / Not Listed” and enter a custom category, subcategory/service type, services/products, optional pricing, and searchable keywords.
+- Never block a legitimate business because its category is missing.
+- Keep category-specific forms extensible; a missing optional category field must not crash or block the registration page.
+- Prevent duplicate keywords, sanitize text, allow owner edits later, and include approved custom categories/keywords in consumer search.
+- Admins may add, rename, deactivate, and organize categories without deleting existing businesses. They may review frequently used custom categories and promote them into the standard list.
+
+CUSTOMER REVIEWS AND AUTOMATIC RATINGS
+- Public business profiles support customer star ratings and optional written comments. Browsing remains account-free.
+- Calculate each displayed average rating and total count from published reviews. Recalculate when a review is published, edited, hidden, or removed. If there are no published reviews, show “No reviews yet.”
+- Do not expose reviewer private account/contact data.
+- Owners cannot set the average/count, edit a customer’s review, or directly delete a review. Owners may flag a review for admin review.
+- Admins can review reports and hide/remove policy-violating reviews; hidden/removed reviews do not affect the public rating.
+- Add reasonable spam/duplicate protections. Rate-limit submissions and use bot protection or lightweight review verification where supported, without requiring an account merely to browse.
+
+BUSINESS IMAGES, GALLERY, SHOWROOM, AND FLYER ASSETS
+- Keep a dedicated primary business profile image/logo near the top of the public profile. It is distinct from the photo gallery, Showroom, promotion image, and restaurant menu. Missing images use a clean placeholder and do not block publication.
+- Support a multi-image business photo gallery with upload progress, preview, success/error/retry states, replace, remove, reorder, optional captions, and publish/unpublish controls where practical.
+- Keep a separate Showroom for products, services, completed work, inventory, menus, interiors, and portfolio examples. Allow multiple images, captions, ordering, preview, and publish/unpublish controls where practical.
+- Support device photo library/camera on supported mobile/tablet devices and a local file picker on computers. Use approved image formats and configured size limits; reject executable content, generate safe storage paths, and provide clear errors.
+- Owners may use an uploaded device image, primary profile image, gallery image, or Showroom image in a promotion/flyer when permitted.
+- Keep private/draft media private. Only publish media intentionally attached to an active public business.
+
+PROMOTIONS AND FLYERS
+- A promotion may use an uploaded image/flyer, a short text description, or both.
+- Support title/headline, image placeholder/upload, short description, optional start/end dates, optional short terms/disclaimer, preview, draft, schedule, publish, edit, unpublish, archive, and delete where supported.
+- Do not display before its start date; stop public display after its end date; preserve expired/archived content for owner history or reuse where appropriate.
+- Promotions are business-specific; one business’s offer must never appear on another business.
+- For the Promotional Flyer Studio, v2.4 specifically replaces the old studio QR-code area with a direct photo-upload placeholder. Do not include a QR code in that studio template.
+- Preserve the stable QR code on the public business profile and intentional QR functionality elsewhere. QR codes are navigation identifiers only, never authentication credentials.
+
+CONTACT ACTIONS
+- On an active public business profile, show a Contact button.
+- Opening it presents exactly two options: CALL and EMAIL. Do not add in-app chat, SMS, contact forms, social messaging, or another contact method.
+- CALL uses only the approved public business phone through a safe tel: action. EMAIL uses only the approved public business email through a safe mailto: action.
+- If a public phone or email is unavailable, disable that option with a clear unavailable state. Never substitute the owner’s private/login contact data.
+- Validate contact values; no scripts, unsafe schemes, tokens, or internal IDs in contact links. Resolve every value by the selected business.
+
+CANCELLATION, PAUSE, AND REACTIVATION
+- Provide a business-specific Cancel Service action with confirmation showing business name and current paid-through date, explaining that the listing stays public through the paid term, future reminders stop, no automatic charge occurs, and data is retained for reactivation.
+- Cancellation stops future renewal reminders and schedules expiration at the current paid-through date. It does not cause an automatic refund or delete the business.
+- An owner may undo a scheduled cancellation before its effective date without a charge; restore reminders and keep the same paid-through date.
+- Keep Pause/Unpublish separate: it temporarily hides a listing without canceling paid service or changing the paid-through date.
+- At expiration, hide the canceled/unpaid listing from public search/profile while retaining its business ID, URL, QR code, photos, Showroom, promotions, reviews, categories, keywords, and owner access.
+- Reactivation is a manual payment using v2.4 pricing ($25 every 2 months), verified server-side. Restore the same business record, never create a duplicate.
+- Staff may cancel/reactivate only if explicitly granted billing/account authority. Log actor, business, time, effective date, and status changes.
+
+CANONICAL DATA AND PAYMENT SECURITY
+- Use the current project’s approved Supabase Authentication, PostgreSQL, Row-Level Security, storage, and secure server-side/Edge Function architecture. Do not mix legacy Firebase session logic or a prior platform’s authentication with Supabase auth.uid().
+- Authenticate the owner before creating a business row; set owner_id from the verified authenticated user, never a client-supplied owner ID.
+- Support one owner to many businesses. Payment and listing status are per business_id, not only per owner account.
+- Protect every relevant table: businesses, memberships/staff, categories/custom categories, services/products, keywords, menus, photos/media, Showroom, promotions/flyers, reviews/reports, payments/renewals, moderation/audit, and private owner profiles.
+- Never rely on frontend filtering for access control. Public queries should use a restricted public view/RPC or equivalent field whitelist.
+- Owners may edit only authorized business content. Protect owner_id, payment/paid-through state, activation, listing/moderation status, stable IDs/slug, provider references, QR target, admin flags, and other system-managed fields from client-side updates.
+- Use a single canonical listing state machine and derive public visibility from verified payment plus moderation/publication state. Do not allow contradictory flags such as “public” while hidden-unpaid.
+- Use random/non-sequential stable public identifiers/slugs, preserve them through edits and renewal, and never treat them as credentials.
+- Use verified, idempotent server-side payment events. Store provider event IDs to prevent duplicate term extensions. Never activate a listing from a browser success URL or client-set “paid” flag.
+- Validate external links and allow only safe schemes. Use parameterized search. Rate-limit sensitive actions as supported.
+
+VERSION CONFLICT RESOLUTION
+- Original predecessor plan tiers and any legacy $25/$50/$75 recurring tiers are retired. V2.4 pricing controls: $19.99 initial enrollment, $25 manual renewal every 2 months, no auto-renewal or saved-card charge, and only the qualifying $12.50 first-renewal referral discount.
+- Any legacy automatic renewal, auto-charge, payment tier, optional $1 fee, Firebase auth, old app name/logo, single-business-per-owner assumption, public owner data, insecure status flag, or QR-on-flyer behavior is superseded by this master.
+- The approved consumer home/search screen, four quick tiles, free 24-hour Business Highlight, voice/intent search, and Local Promotions supersede older category/Directory navigation. Category filters remain inside Search.
+- V2.4 flyer-studio photo upload supersedes prior flyer-studio QR placement. Keep profile QR codes and other intentional QR use.
+- If an old feature cannot be reconciled with these rules, preserve its data, disable the conflicting behavior, and report the conflict; do not silently restore the old behavior.
+
+14. REQUIRED ACCEPTANCE AND END-TO-END TESTS
+
+Branding and migration:
+[ ] All current public-facing legacy names are replaced with ShortStack.
+[ ] Approved logo and exact “Small Businesses. Big Deal.” motto appear consistently.
+[ ] Existing businesses, profile URLs, QR codes, reviews, payment history, and owner/staff roles remain intact.
+[ ] No business or owner records were unintentionally duplicated or lost.
+
+Consumer discovery:
+[ ] Full approved Miami sunset consumer home screen is restored with “Your Stacks,” typed/voice search, location controls, four quick tiles, Business Highlight, and Local Promotions.
+[ ] Intent-based search works for name, need, category, keywords, city, ZIP, service area, mobile business, and promotions.
+[ ] Search can be started from a business profile.
+[ ] Location and microphone denial leave useful alternative paths.
+[ ] Serious searches do not receive humorous commentary.
+[ ] Business Highlight rotates every 24 hours and includes only active, paid, public, eligible businesses.
+[ ] Hidden, suspended, rejected, canceled, expired, unpaid, and otherwise ineligible listings do not leak into discovery/highlights.
+[ ] Expired and unpublished promotions are excluded.
+
+Owner and payment flows:
+[ ] Business creation/edit uses “City and State.”
+[ ] $19.99 signup and $25 manual renewal every 2 months appear consistently.
+[ ] Automatic renewals and automatic saved-card charges are off.
+[ ] Qualifying referrals apply one $12.50 first-renewal discount only; later renewals are $25.
+[ ] Payment failures, retries, duplicate submissions, overdue status, cancellation, and reactivation have clear tested behavior.
+[ ] Photo upload, preview, save, replace, delete, type/size validation, and failure recovery work on mobile and desktop.
+[ ] Flyer Studio uses direct photo upload instead of a QR code; intentional QR codes elsewhere remain intact.
+
+Inherited v1.x owner and business workflows:
+[ ] New owners see a working blank listing form immediately; no missing optional record causes a blank screen.
+[ ] Address autocomplete populates only provider-returned values and manual entry works when the provider is unavailable.
+[ ] Multiple businesses per owner remain separate, and each business has its own payment, media, promotion, review, QR, and status records.
+[ ] Owners can add a custom category and searchable keywords; admins can manage categories without breaking existing listings.
+[ ] Published review averages/counts update from published reviews; owners cannot set ratings, and hidden reviews do not count.
+[ ] Gallery and Showroom support multiple secure uploads, preview, replace, remove, reorder, captions, and publish controls where enabled.
+[ ] Promotions support image, description, or both, with draft/scheduled/active/expired/unpublished/archive behavior.
+[ ] Cancel Service is separate from Pause/Unpublish; cancellation preserves data, stops reminders, and can be undone before its effective date.
+[ ] Contact opens exactly CALL and EMAIL, using only the selected business’s public contact fields.
+[ ] Every authenticated role starts signed out on fresh launch and is signed out after five minutes of inactivity.
+
+Admin and security:
+[ ] Admin controls, moderation, categories, promotions, payment/referral oversight, status controls, and audit history work.
+[ ] Owner accounts cannot access admin actions.
+[ ] Staff roles are limited to assigned permissions and business data.
+[ ] MFA, row-level security, object-level authorization, and server-side authorization pass regression checks.
+[ ] Public search/profile responses expose only approved public data.
+[ ] Secrets are server-side only; no real payment credentials are used for QA.
+
+Legal, accessibility, and operations:
+[ ] Terms & Conditions and Privacy Policy are reachable from the public experience.
+[ ] Account deletion and data handling are documented and tested.
+[ ] Responsive, keyboard, screen-reader, contrast, and text-scaling checks pass.
+[ ] Empty/error/permission-denied states are usable.
+[ ] Backup, migration reconciliation, rollback plan, and production configuration are documented.
+
+15. REQUIRED BUILD REPORT
+
+At completion, provide:
+- Preview/staging URL for final testing.
+- The test-account roles and safe access instructions; never expose production credentials.
+- Confirmation that payment sandbox/test mode is enabled for QA.
+- A concise list of implemented changes and tests actually run.
+- Any remaining defects, incomplete requirements, launch blockers, and post-launch items.
+- Data-migration reconciliation and rollback status.
+- Security regression status.
+- Explicit confirmation that no production launch, real customer charge, or customer notification occurred during QA.
+
+LAUNCH GATE
+
+Do not label the build launch-ready until all critical acceptance checks pass, payment sandbox behavior is verified, security and data preservation checks pass, required policies are accessible, and no unresolved critical blocker remains. If a requirement cannot be verified, report it plainly and leave the release in preview/staging.
+
+END OF SHORTSTACK MASTER BUILD SPECIFICATION
+
