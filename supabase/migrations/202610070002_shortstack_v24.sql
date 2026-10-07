@@ -189,7 +189,7 @@ select b.id, b.name, b.city, b.state, b.status, b.created_at,
 from public.businesses b
 left join public.business_entitlements e on e.business_id = b.id
 where b.owner_id = auth.uid()
-   or exists (select 1 from public.business_memberships m where m.business_id = b.id and m.user_id = auth.uid() and m.can_manage_billing)
+   or exists (select 1 from public.business_memberships m where m.business_id = b.id and m.user_id = auth.uid() and (m.can_manage_billing or m.role = 'manager'))
    or public.is_platform_admin();
 grant select on public.owner_business_dashboard to authenticated;
 
